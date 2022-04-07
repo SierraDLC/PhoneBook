@@ -1,7 +1,7 @@
 const express = require('express')
-const code = express()
+const app = express()
 
-code.use(express.json())
+app.use(express.json())
 
 let persons = [
     { 
@@ -25,21 +25,21 @@ let persons = [
         number: "39-23-6423122"
       }
 ]
-    code.get('/', (request, response) => {
+    app.get('/', (request, response) => {
      response.send('<h1>Hello World!</h1>')
   })
   
-  code.get('/api/persons', (request, response) => {
+  app.get('/api/persons', (request, response) => {
     response.json(persons)
   })
 
-  code.get('/info', (request, response) => {
+  app.get('/info', (request, response) => {
     let entries = persons.length;
     
     response.send(`Phonebook has info for ${entries} people <br /><br /> ${new Date()}`);
 })
   
-  code.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
  
@@ -50,7 +50,7 @@ let persons = [
       }
 })
 
-    code.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     persons = persons.filter(person => person.id !== id)
   
@@ -58,7 +58,7 @@ let persons = [
   
 })
 
- code.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response) => {
    
     const randoId = Math.floor(Math.random() * 7555556);
    
@@ -89,7 +89,7 @@ let persons = [
 
 
 const PORT = 3003
-  code.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
 
