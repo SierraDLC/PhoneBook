@@ -1,7 +1,20 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
+
 app.use(express.json())
+
+
+morgan.token('add',(req) => { 
+    if (req.method ==='POST')
+{ return JSON.stringify(req.body)}
+
+else {return null}
+
+})
+
+app.use(morgan(':method, :url :status :res[content-length] - :response-time ms:add'))
 
 let persons = [
     { 
@@ -39,7 +52,7 @@ let persons = [
     response.send(`Phonebook has info for ${entries} people <br /><br /> ${new Date()}`);
 })
   
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', morgan("combined"), (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
  
@@ -58,9 +71,9 @@ app.delete('/api/persons/:id', (request, response) => {
   
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons',  (request, response) => {
    
-    const randoId = Math.floor(Math.random() * 7555556);
+    const randoId = Math.floor(Math.random() * 735555556);
    
     const create= request.body;
    
